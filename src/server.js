@@ -31,7 +31,6 @@ app.use(
 		origin: [
 			"http://localhost:5173",
 			process.env.CLIENT_URL,
-			"https://dashcart-olv7h.sevalla.app",
 		].filter(Boolean),
 		credentials: true,
 	})
