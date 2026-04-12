@@ -31,6 +31,7 @@ app.use(
 		origin: [
 			"http://localhost:5173",
 			process.env.CLIENT_URL,
+			"https://dash-cart-frontend.vercel.app",
 		].filter(Boolean),
 		credentials: true,
 	})
