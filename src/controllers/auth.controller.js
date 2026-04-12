@@ -25,13 +25,13 @@ const setCookies = (res, accessToken, refreshToken) => {
   res.cookie("accessToken", accessToken, {
     httpOnly: true, // prevent xss attacks
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax", //prevent csrf attacks
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", //prevent csrf attacks
     maxAge: 15 * 60 * 1000,
   });
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true, // prevent xss attacks
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax", //prevent csrf attacks
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", //prevent csrf attacks
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 };
@@ -134,7 +134,7 @@ export const refreshToken = async (req, res) => {
     res.cookie("accessToken", accessToken, {
       httpOnly: true, // prevent xss attacks
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax", //prevent csrf attacks
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", //prevent csrf attacks
       maxAge: 15 * 60 * 1000,
     });
 
