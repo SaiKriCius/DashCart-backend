@@ -5,9 +5,7 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 import cookieParser from "cookie-parser";
-import {v2 as cloudinary} from "cloudinary";
-
-
+import { v2 as cloudinary } from "cloudinary";
 
 import webhookRoutes from "./routes/webhook.route.js";
 import authRoutes from "./routes/auth.route.js";
@@ -28,25 +26,24 @@ cloudinary.config({
 const app = express();
 app.set("trust proxy", 1);
 app.use(
-	cors({
-		origin: [
-			"http://localhost:5173",
-			"https://dash-cart-frontend.vercel.app",
-			process.env.CLIENT_URL,
-		].filter(Boolean),
-		credentials: true,
-	})
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://dash-cart-frontend.vercel.app",
+      process.env.CLIENT_URL,
+    ].filter(Boolean),
+    credentials: true,
+  }),
 );
-const PORT = process.env.PORT || 5000; 
+const PORT = process.env.PORT || 5000;
 const __dirname = path.resolve();
 
 app.use("/api/webhook", webhookRoutes);
 
-
 app.use(express.json({ limit: "5mb" }));
 app.use((req, res, next) => {
-	res.removeHeader("Content-Security-Policy");
-	next();
+  res.removeHeader("Content-Security-Policy");
+  next();
 });
 app.use(cookieParser());
 
@@ -59,11 +56,11 @@ app.use("/api/analytics", analyticsRoutes);
 
 // Health checks and Root route
 app.get("/api/health", (_req, res) => {
-    res.status(200).json({ status: "awake" });
+  res.status(200).json({ status: "awake" });
 });
 
 app.get("/", (_req, res) => {
-    res.send(`
+  res.send(`
         <html>
             <body style="font-family: sans-serif; padding: 2rem; text-align: center;">
                 <h2>DashCart Backend</h2>
@@ -74,18 +71,14 @@ app.get("/", (_req, res) => {
 });
 
 if (process.env.NODE_ENV === "production") {
- 
-	app.use(express.static(path.join(__dirname, "..", "frontend", "dist")));
+  app.use(express.static(path.join(__dirname, "..", "frontend", "dist")));
 
-	app.get(/.*/, (req, res) => {
-		res.sendFile(path.resolve(__dirname, "..", "frontend", "dist", "index.html"));
-	});
-
+  app.get(/.*/, (req, res) => {
+    res.sendFile(
+      path.resolve(__dirname, "..", "frontend", "dist", "index.html"),
+    );
+  });
 }
-
-
-
-
 
 app.listen(PORT, () => {
   console.log("server is up and running on http://localhost:" + PORT);
