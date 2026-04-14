@@ -31,6 +31,7 @@ app.use(
 	cors({
 		origin: [
 			"http://localhost:5173",
+			"https://dash-cart-frontend.vercel.app",
 			process.env.CLIENT_URL,
 		].filter(Boolean),
 		credentials: true,
@@ -56,9 +57,13 @@ app.use("/api/coupons", couponRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/analytics", analyticsRoutes);
 
-// Health check
+// Health checks and Root route
+app.get("/api/health", (_req, res) => {
+    res.status(200).json({ status: "awake" });
+});
+
 app.get("/", (_req, res) => {
-    res.send("Backend server is running!");
+    res.send("This is the backend. The frontend is located at https://dash-cart-frontend.vercel.app/");
 });
 
 if (process.env.NODE_ENV === "production") {
