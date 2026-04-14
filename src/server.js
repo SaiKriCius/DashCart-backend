@@ -63,7 +63,14 @@ app.get("/api/health", (_req, res) => {
 });
 
 app.get("/", (_req, res) => {
-    res.send("This is the backend. The frontend is located at https://dash-cart-frontend.vercel.app/");
+    res.send(`
+        <html>
+            <body style="font-family: sans-serif; padding: 2rem; text-align: center;">
+                <h2>DashCart Backend</h2>
+                <p>This is the backend. The frontend is located at <a href="https://dash-cart-frontend.vercel.app/">https://dash-cart-frontend.vercel.app/</a></p>
+            </body>
+        </html>
+    `);
 });
 
 if (process.env.NODE_ENV === "production") {
